@@ -21,7 +21,7 @@ const props = defineProps<ListNumberProps>()
 .number-container {
 display: flex;
 flex-wrap: wrap; /* Allows wrapping to the next line if needed */
-gap: 10px; /* Spacing between items */
+gap: 30px; /* Spacing between items */
 justify-content: center; /* Center items horizontally */
 }
 

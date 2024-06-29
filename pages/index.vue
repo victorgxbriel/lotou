@@ -1,29 +1,29 @@
 <template>
     <main class="index-main">
         <div class="svg-container">
-        <svg class="loteria" width="100vh" height="100vh" viewBox="0 0 613 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M613 0C613 0 361.26 501.011 613 1080H0V0H613Z" fill="#6BEFA3"/>
-        </svg>
-        <div class="container-loteria">
-            <div class="select-loteria">
-                <select v-model="selectedLoteria" name="loteria">
-                    <option value="megasena">MEGA-SENA</option>
-                    <option value="quina">QUINA</option>
-                    <option value="lotofacil">LOTOFACIL</option>
-                    <option value="lotomania">LOTOMANIA</option>
-                    <option value="timemania">TIME MANIA</option>
-                    <option value="diadesorte">DIA DE SORTE</option>
-                </select>
+            <svg class="loteria" width="100%" height="100%" viewBox="0 0 613 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M613 0C613 0 361.26 501.011 613 1080H0V0H613Z" :fill="loterias.get(selectedLoteria)?.color"/>
+            </svg>
+            <div class="container-loteria">
+                <div class="select-loteria">
+                    <select v-model="selectedLoteria" name="loteria">
+                        <option value="megasena">MEGA-SENA</option>
+                        <option value="quina">QUINA</option>
+                        <option value="lotofacil">LOTOFACIL</option>
+                        <option value="lotomania">LOTOMANIA</option>
+                        <option value="timemania">TIME MANIA</option>
+                        <option value="diadesorte">DIA DE SORTE</option>
+                    </select>
+                </div>
+                <div class="info-loteria">
+                    <Icon name="mdi:clover" mode="svg" class="icon" color="white"/>
+                    <p>{{ loterias.get(selectedLoteria)?.name }}</p>
+                </div>
+                <div class="concurso-loteria">
+                    <p>CONCURSO</p>
+                    <h3>{{ loteria?.numero }} - {{ loteria?.dataApuracao }}</h3>
+                </div>
             </div>
-            <div class="info-loteria">
-                <Icon name="mdi:clover" mode="svg" class="icon" color="white"/>
-                <p>{{ selectedLoteria }}</p>
-            </div>
-            <div class="concurso-loteria">
-                <p>CONCURSO</p>
-                <h3>{{ loteria?.numero }} - {{ loteria?.dataApuracao }}</h3>
-            </div>
-        </div>
         </div>
         <div class="draw-numbers">
             <ListNumber :listNumbers="listNumbers"/>
@@ -33,14 +33,35 @@
 
 <script setup lang="ts">
 import type { NumberProps } from '~/components/number.vue';
+import loteriasJSON from "../public/assets/loterias.json";
 
 const selectedLoteria = ref("megasena")
 
+interface loteriaItem {
+    endpoint: string,
+    name: string,
+    color: string
+}
+
+let loterias = new Map<string, loteriaItem>()
+loteriasJSON.forEach(item => {
+    loterias.set(item.id, {
+        endpoint: item.endpoint,
+        name: item.name,
+        color: item.color
+    })
+});
+
+
 const endpoint = computed(() => {
-    return `https://servicebus2.caixa.gov.br/portaldeloterias/api/${selectedLoteria.value}`
+    return `https://servicebus2.caixa.gov.br/portaldeloterias/api/${loterias.get(selectedLoteria.value)?.endpoint}`
 })
 
-const color = "#6BEFA3"
+const { data: loteria2 } = await useAsyncData("loteria-info", async() => $fetch(`https://servicebus2.caixa.gov.br/portaldeloterias/api/${loterias.get(selectedLoteria.value)?.endpoint}`    ),
+{
+    watch: [selectedLoteria]
+}
+)
 interface Teste {
     dataApuracao: string,
     listaDezenas: string[],
@@ -93,18 +114,18 @@ const listNumbers = computed<NumberProps[]>(() => {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    left: -10vmax;
 }
 .svg-container {
     position: relative;
-    width: 40%;
+    width: 50%;
     height: 100vh;
 }
 .svg-container .loteria {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vh;
+    height: 100vh;
+    left:-10vmax;
 }
 .info-loteria {
     margin: 20px 0;
@@ -122,7 +143,7 @@ const listNumbers = computed<NumberProps[]>(() => {
     height: 3em; /* Adjust the size as needed */
 }
 .select-loteria select{
-    margin: 20px 0;
+    margin: 2vh 0;
     font-family: "Montserrat";
     font-weight: 400;
     background-color: white;
