@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import type { loteriaItem } from '~/pages/index.vue';
+import type { loteriaItem } from '~/pages/dashboard.vue';
 
 const { selectedLoteria, loteriasJSON } = inject("selects") as {
     selectedLoteria: any,

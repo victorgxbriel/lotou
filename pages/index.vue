@@ -1,78 +1,93 @@
 <template>
-    <main class="index-main">
-        <LoteriaSVG :name="loterias.get(selectedLoteria)?.name || '' " :color="loterias.get(selectedLoteria)?.color || ''" :numero="loteria?.numero.toString() || ''" :dataApuracao="loteria?.dataApuracao || ''"/>
-        <div class="draw-numbers">
-            <ListNumber :listNumbers="listNumbers"/>
-        </div>
-    </main>
+    <div class="logo-container">
+        <img src="../public/img/logo-lotou.png" alt="logo">
+    </div>
+    <div class="login-container">
+        <h1>Login</h1>
+        <br>
+        <form @submit.prevent="handleLogin">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" v-model="email" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" v-model="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <div class="options-container">
+        <a href="http://" target="_blank" rel="noopener noreferrer">Esqueceu a senha?</a> <br>
+        <a href="http://" target="_blank" rel="noopener noreferrer">Criar conta</a>
+    </div>
 </template>
 
-<script setup lang="ts">
-import type { NumberProps } from '~/components/number.vue';
-import loteriasJSON from "../public/assets/loterias.json";
+<script>
+export default {
+    data() {
+        return {
+            email: '',
+            password: ''
+        }
+    },
+    methods: {
+        handleLogin() {
+            //TODO - Lógica de login
+            console.log('Email:', this.email);
+            console.log('Password:', this.password);
 
-export interface loteriaItem {
-    endpoint: string,
-    name: string,
-    color: string
-}
-
-interface Teste {
-    dataApuracao: string,
-    listaDezenas: string[],
-    numero: number
-}
-
-let loterias = new Map<string, loteriaItem>()
-loteriasJSON.forEach(item => {
-    loterias.set(item.id, {
-        endpoint: item.endpoint,
-        name: item.name,
-        color: item.color
-    })
-});
-
-const selectedLoteria = ref("megasena")
-
-provide("selects", {
-    selectedLoteria,
-    loteriasJSON
-})
-
-const { data: loteria, execute, pending, status} = await useLazyAsyncData<Teste>("loterias-info", 
-async () => ($fetch(`https://servicebus2.caixa.gov.br/portaldeloterias/api/${loterias.get(selectedLoteria.value)?.endpoint}`)),
-{
-    watch: [selectedLoteria],
-    pick: ['dataApuracao', 'listaDezenas', 'numero']
-})
-
-const listNumbers = computed<NumberProps[]>(() => {
-    return loteria.value?.listaDezenas.map((num) => {
-    const n: NumberProps = {
-        num: num
+            this.$router.push('/dashboard');
+        }
     }
-    return n
-}) || []
-})
-
+}
 </script>
 
 <style scoped>
-.index-main {
-    background-color: #EFEFEF;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 100vh;
-    width: 100%;
-    color: white
+.logo-container {
+    text-align: center;
+    max-width: 500px;
+    max-height: 350px;
+    margin: auto;
+    
 }
-.draw-numbers {
-    background-color:#EFEFEF;
-    width: 60%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.options-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+form div {
+    margin-bottom: 10px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
 }
 </style>
