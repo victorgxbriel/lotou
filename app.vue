@@ -5,7 +5,9 @@
 <template>
   <div>
     <NuxtLoadingIndicator color="blue" />
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
     <!--
     <NuxtRouteAnnouncer />
     <NuxtWelcome />

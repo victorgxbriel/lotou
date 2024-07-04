@@ -14,5 +14,8 @@
     "@nuxtjs/google-fonts": "^3.2.0",
     "nuxt": "^3.12.2",
     "vue": "latest"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.1.67"
   }
 }
