@@ -39,7 +39,7 @@ export default {
             console.log('Email:', this.email);
             console.log('Password:', this.password);
 
-            this.$router.push('/');
+            this.$router.push('/dashboard');
         }
     }
 }

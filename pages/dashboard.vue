@@ -11,6 +11,10 @@
 import type { NumberProps } from '~/components/number.vue';
 import loteriasJSON from "../public/assets/loterias.json";
 
+definePageMeta({
+    layout: "logado"
+})
+
 export interface loteriaItem {
     endpoint: string,
     name: string,
