@@ -3,36 +3,48 @@
         "id": "megasena",
         "endpoint": "megasena",
         "color": "#6BEFA3",
-        "name": "MEGA-SENA"
+        "name": "MEGA-SENA",
+        "minNumbers": 6,
+        "maxNumbers": 15
     },
     {
         "id": "quina",
         "endpoint": "quina",
         "color": "#8666EF",
-        "name": "QUINA"
+        "name": "QUINA",
+        "minNumbers": 5,
+        "maxNumbers": 15
     },
     {
         "id": "lotofacil",
         "endpoint": "lotofacil",
         "color": "#DD7AC6",
-        "name": "LOTOFACIL"
+        "name": "LOTOFACIL",
+        "minNumbers": 15,
+        "maxNumbers": 18
     },
     {
         "id": "lotomania",
         "endpoint": "lotomania",
         "color": "#FFAB64",
-        "name": "LOTOMANIA"
+        "name": "LOTOMANIA",
+        "minNumbers": 50,
+        "maxNumbers": 50
     },
     {
         "id": "timemania",
         "endpoint": "timemania",
         "color": "#5AAD7D",
-        "name": "TIMEMANIA"
+        "name": "TIMEMANIA",
+        "minNumbers": 10,
+        "maxNumbers": 10
     },
     {
         "id": "diadesorte",
         "endpoint": "diadesorte",
         "color": "#BFAF83",
-        "name": "DIA DE SORTE"
+        "name": "DIA DE SORTE",
+        "minNumbers": 7,
+        "maxNumbers": 15
     }
 ]
