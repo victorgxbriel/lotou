@@ -1,58 +1,46 @@
 <template>
     <main class="index-main">
-        <LoteriaSVG :name="loterias.get(selectedLoteria)?.name || '' " :color="loterias.get(selectedLoteria)?.color || ''" :numero="loteria?.numero.toString() || ''" :dataApuracao="loteria?.dataApuracao || ''"/>
+        <LoteriaSVG :name="selectedLoteria.nome"
+            :color="selectedLoteria.cor" :numero="loteria?.numero.toString() || ''"
+            :dataApuracao="loteria?.dataApuracao || ''" />
         <div class="draw-numbers">
-            <ListNumber :listNumbers="listNumbers"/>
+            <ListNumber :listNumbers="listNumbers" />
         </div>
     </main>
 </template>
 
 <script setup lang="ts">
 import type { NumberProps } from '~/components/number.vue';
-import loteriasJSON from "../public/assets/loterias.json";
 
-export interface loteriaItem {
-    endpoint: string,
-    name: string,
-    color: string
-}
+const selectedLoteria2 = ref("megasena")
 
-interface Teste {
-    dataApuracao: string,
-    listaDezenas: string[],
-    numero: number
-}
+const loterias: Loteria[] = useLoteria()
+const selectedLoteria = ref<Loteria>(loterias[0])
 
-let loterias = new Map<string, loteriaItem>()
-loteriasJSON.forEach(item => {
-    loterias.set(item.id, {
-        endpoint: item.endpoint,
-        name: item.name,
-        color: item.color
-    })
-});
-
-const selectedLoteria = ref("megasena")
-
-provide("selects", {
+provide("select-loteria", {
     selectedLoteria,
-    loteriasJSON
+    loterias
 })
-
-const { data: loteria, execute, pending, status} = await useLazyAsyncData<Teste>("loterias-info", 
-async () => ($fetch(`https://servicebus2.caixa.gov.br/portaldeloterias/api/${loterias.get(selectedLoteria.value)?.endpoint}`)),
-{
-    watch: [selectedLoteria],
-    pick: ['dataApuracao', 'listaDezenas', 'numero']
-})
+    
+const { data: loteria, execute } = await useLazyAsyncData<ResponseLoterias>("loterias-info",
+    async () => {
+        return await ($fetch(`https://servicebus2.caixa.gov.br/portaldeloterias/api/${selectedLoteria.value.endpoint}`))
+        //return res
+    },
+    {
+        watch: [selectedLoteria],
+        pick: ['dataApuracao', 'listaDezenas', 'numero'],
+        server: false
+    }
+)
 
 const listNumbers = computed<NumberProps[]>(() => {
     return loteria.value?.listaDezenas.map((num) => {
-    const n: NumberProps = {
-        num: num
-    }
-    return n
-}) || []
+        const n: NumberProps = {
+            num: num
+        }
+        return n
+    }) || []
 })
 
 </script>
@@ -67,8 +55,9 @@ const listNumbers = computed<NumberProps[]>(() => {
     width: 100%;
     color: white
 }
+
 .draw-numbers {
-    background-color:#EFEFEF;
+    background-color: #EFEFEF;
     width: 60%;
     height: 100vh;
     display: flex;
