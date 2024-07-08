@@ -1,0 +1,70 @@
+[
+    {
+        "id" : 1,
+        "name" : "Mega da virada",
+        "numero": "2745",
+        "listNumbers": [
+            {
+                "num": "1"
+            },
+            {
+                "num": "2"
+            },
+            {
+                "num": "3"
+            }
+        ],
+        "resultado" : [
+            {
+                "num": "4"
+            },
+            {
+                "num": "3"
+            },
+            {
+                "num": "5"
+            }
+        ],
+        "loteria": {
+            "cor": "#6BFEA3",
+            "endpoint": "loteria",
+            "id": "megasena",
+            "nome": "MEGA-SENA"
+        },
+        "user_id": 1
+    },
+    {
+        "id" : 2,
+        "name" : "Teste",
+        "numero": "2745",
+        "listNumbers": [
+            {
+                "num": "5"
+            },
+            {
+                "num": "3"
+            },
+            {
+                "num": "1"
+            }
+        ],
+        "resultado" : [
+            {
+                "num": "4"
+            },
+            {
+                "num": "3"
+            },
+            {
+                "num": "5"
+            }
+        ],
+        "loteria": {
+            "cor": "#6BFEA3",
+            "endpoint": "loteria",
+            "id": "megasena",
+            "nome": "MEGA-SENA"
+        },
+        "user_id": 1
+    }
+]

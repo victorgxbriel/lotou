@@ -1,7 +1,7 @@
 <template>
     <div class="select-loteria">
-        <select v-model="selectedLoteria" name="loteria">
-            <option v-for="loteria in loterias" :value="loteria" >{{ loteria.nome }}</option>
+        <select v-model="selectedConcurso" name="loteria">
+            <option v-for="concurso in concursos" :value="concurso.numero" >{{ concurso.numero }} - {{ concurso.dataApuracao }}</option>
         </select>
     </div>
 </template>
@@ -9,11 +9,11 @@
 <script setup lang="ts">
 
 
-const { selectedLoteria, loterias } = inject("select-loteria") as {
-    selectedLoteria: Loteria,
-    loterias: Loteria[]
+const { selectedConcurso, concursos } = inject("select-concurso") as {
+    selectedConcurso: Concurso,
+    concursos: Concurso[]
 }
-console.log(loterias)
+console.log(concursos)
 
 </script>
 

@@ -1,6 +1,8 @@
 <template>
+   <Icon name="lets-icons:remove-duotone" v-if="props.onRemove" @click="$emit('on-remove')" class="icon"/> 
     <div class="lottery-ball">
-        <p>{{ num }}</p>
+        <p v-if="props.match" style="background-color: aquamarine;">{{ num }}</p>
+        <p v-else >{{ num }}</p>
     </div>
 </template>
 
@@ -8,25 +10,38 @@
 
 export type NumberProps = {
     num: string,
-    match?: boolean
+    match?: boolean,
+    onRemove?: boolean
+}
+
+type NumberEmits = {
+    (event: 'on-remove'): void
 }
 
 const props = defineProps<NumberProps>()
+
+const emits = defineEmits<NumberEmits>()
 
 </script>
 
 <style scoped>
 .lottery-ball {
-  width: 100px;
-  height: 100px;
+  width: 4vmax;
+  height: 4vmax;
   background-color: #ffffff; /* Gold color */
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  font-size: 20px;
+  font-size: 1vmax;
   font-weight: bold;
   color: #000000;
 }
+
+.icon{
+    width: 2vmax;
+    height: 2vmax;
+}
+
 </style>
