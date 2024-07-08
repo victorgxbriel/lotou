@@ -1,6 +1,8 @@
 <template>
     <main class="index-main">
-        <LoteriaSVG :name="loterias.get(selectedLoteria)?.name || '' " :color="loterias.get(selectedLoteria)?.color || ''" :numero="loteria?.numero.toString() || ''" :dataApuracao="loteria?.dataApuracao || ''"/>
+        <LoteriaSVG :name="selectedLoteria.nome"
+            :color="selectedLoteria.cor" :numero="loteria?.numero.toString() || ''"
+            :dataApuracao="loteria?.dataApuracao || ''" />
         <div class="draw-numbers">
             <ListNumber :listNumbers="listNumbers"/>
         </div>
@@ -27,24 +29,26 @@ interface Teste {
     numero: number
 }
 
-let loterias = new Map<string, loteriaItem>()
-loteriasJSON.forEach(item => {
-    loterias.set(item.id, {
-        endpoint: item.endpoint,
-        name: item.name,
-        color: item.color
-    })
-});
+// let loterias2 = new Map<string, loteriaItem>()
+// loteriasJSON.forEach(item => {
+//     loterias.set(item.id, {
+//         endpoint: item.endpoint,
+//         name: item.nome,
+//         color: item.cor
+//     })
+// });
 
-const selectedLoteria = ref("megasena")
 
-provide("selects", {
+const loterias: Loteria[] = useLoteria()
+const selectedLoteria = ref<Loteria>(loterias[0])
+
+provide("select-loteria", {
     selectedLoteria,
-    loteriasJSON
+    loterias
 })
 
 const { data: loteria, execute, pending, status} = await useLazyAsyncData<Teste>("loterias-info", 
-async () => ($fetch(`https://servicebus2.caixa.gov.br/portaldeloterias/api/${loterias.get(selectedLoteria.value)?.endpoint}`)),
+async () => ($fetch(`https://servicebus2.caixa.gov.br/portaldeloterias/api/${selectedLoteria.value.endpoint}`)),
 {
     watch: [selectedLoteria],
     pick: ['dataApuracao', 'listaDezenas', 'numero']
