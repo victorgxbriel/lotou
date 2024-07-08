@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="container">
         <h1>Novo jogo</h1>
-        <form @subimt.prevent="">
+        <div>
             <div>
                 <label for="nome">Nome:</label>
                 <input type="text" id="nome" v-model="jogo.name" required>
@@ -13,25 +13,36 @@
             <div>
                 <label for="concurso">Concurso: </label>
                 <SelectConcurso />
-                <input type="text" id="concurso" v-model="jogo.numero"  required placeholder="Atual"/>
             </div>
             <div>
                 <p>Números: </p>
-                <ListNumber :listNumbers="list" />
-                <div>
-                    <Icon class="icon" name="lets-icons:add-duotone" mode="svg" color="black" v-if="num === ''"/>
-                    <input type="text" v-model="num" @keyup.enter="addNumber"/>
-                    <span v-if="boolNum">Número invalido! Escolha um número entre: 1 e {{ selectedLoteria.variacaoNum }}</span>
+                <div class="numbers">
+                    <div class="input-wrapper">
+                        <!--
+                        <Icon class="icon" name="lets-icons:add-duotone" mode="svg" color="black" v-if="num === ''"/>
+                        -->
+                        <input type="text" v-model="num" @keyup.enter="addNumber" />
+                    </div>
+                    <span v-if="boolNum">Número invalido! Escolha um número entre: 1 e {{ selectedLoteria.variacaoNum
+                        }}</span>
                 </div>
+                <ListNumber :listNumbers="list" :form="form" @remove="(num: string) => remNumber(num)" />
             </div>
-        </form>
-        <p>{{ selectedLoteria.cor }} e {{ selectedLoteria.endpoint }} e {{ loteria }}</p>
+            <div class="div-buttons">
+                <button style="color: blue;" @click="addJogo">Criar</button>
+                <button>Cancelar</button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import type { NumberProps } from '~/components/number.vue';
 import type { Concurso } from '~/composables/types';
+
+definePageMeta({
+    layout: "user"
+})
 
 const jogo = reactive<Jogo>({
     name: '',
@@ -52,23 +63,46 @@ const jogo = reactive<Jogo>({
     }
 })
 
+const route = useRoute()
+
+const form = ref<boolean>(true)
+
 const list = reactive<NumberProps[]>([])
 
 const num = ref<string>('')
 const boolNum = ref<boolean>(false)
 
+const remNumber = (num: string) => {
+    const idx = list.findIndex(item => item.num === num)
+    if(idx !== -1)
+        list.splice(idx, 1)
+}
 
 const addNumber = () => {
-    if(isValidNumber(num.value || '', selectedLoteria.value) && isUniqueNumber(num.value, list)){
+    if (isValidNumber(num.value || '', selectedLoteria.value) && isUniqueNumber(num.value, list)) {
         list.push({
-        // ignora
-        num: num.value
-        })  
+            // ignora
+            num: num.value
+        })
         num.value = ''
-        boolNum.value =false
+        boolNum.value = false
     } else {
         boolNum.value = true
     }
+}
+
+const addJogo = () => {
+    jogo.loteria = selectedLoteria.value
+    jogo.numero = selectedConcurso.value?.numero || ""
+    jogo.listNumbers = list
+    jogo.resultado = loteria.value?.listaDezenas.map((num) => {
+        const n: NumberProps = {
+            num: num
+        }
+        return n
+    }) || []
+    const idd =useAddJogo(jogo)
+    console.log(idd)
 }
 
 const loterias: Loteria[] = useLoteria()
@@ -79,11 +113,12 @@ provide("select-loteria", {
     loterias
 })
 
-const concurso = []
-const selectedConcurso = ref<Concurso>
+const concursos = ref<Concurso[]>()
+const selectedConcurso = ref<Concurso>()
 
 provide("select-concurso", {
-
+    selectedConcurso,
+    concursos
 })
 
 const { data: loteria, execute, error, status } = await useLazyAsyncData<ResponseLoterias>("loterias-info",
@@ -98,18 +133,68 @@ const { data: loteria, execute, error, status } = await useLazyAsyncData<Respons
     }
 )
 
-/* tentei fazer com server/api mas só retornava nulo
-const {data, error, pending, status } = await useFetch<Loteria[]>("/api/loterias", {
-    method: 'GET'
+watch([selectedLoteria, loteria], async () => {
+    if (loteria.value?.numero)
+        concursos.value = await useConcursos(selectedLoteria.value, loteria.value?.numero)
+    else
+        concursos.value = []
 })
-const loterias: Loteria[] = data.value || []
-*/
 
 </script>
 
 <style scoped>
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
 .icon {
-    width: 5em; /* Adjust the size as needed */
-    height: 5em; /* Adjust the size as needed */
+    position: absolute;
+    width: 5em;
+    /* Adjust the size as needed */
+    height: 5em;
+    /* Adjust the size as needed */
+}
+
+.numbers {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input[type="text"] {
+    width: 4vmax;
+    height: 4vmax;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 1em;
+}
+
+.input-wrapper input[type="text"]:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+}
+
+.div-buttons {
+    margin-top: 1vmax;
+    display: flex;
+    justify-content: space-evenly;
+}
+.div-buttons button {
+    width: 5vmax;
+    height: 2vmax;
+    border-radius: 1vmax;
 }
 </style>

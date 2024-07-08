@@ -1,4 +1,5 @@
 <template>
+   <Icon name="lets-icons:remove-duotone" v-if="props.onRemove" @click="$emit('on-remove')" class="icon"/> 
     <div class="lottery-ball">
         <p>{{ num }}</p>
     </div>
@@ -8,10 +9,17 @@
 
 export type NumberProps = {
     num: string,
-    match?: boolean
+    match?: boolean,
+    onRemove?: boolean
+}
+
+type NumberEmits = {
+    (event: 'on-remove'): void
 }
 
 const props = defineProps<NumberProps>()
+
+const emits = defineEmits<NumberEmits>()
 
 </script>
 
@@ -29,4 +37,10 @@ const props = defineProps<NumberProps>()
   font-weight: bold;
   color: #000000;
 }
+
+.icon{
+    width: 2vmax;
+    height: 2vmax;
+}
+
 </style>

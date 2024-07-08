@@ -7,7 +7,7 @@ export default defineNuxtConfig({
       download: true,
       inject: true
     }
-  }]],
+  }],],
   app: {
     head: {
       link: [{ rel: 'icon', type: 'image/png', href: './public/img/logo-lotou.png'}],

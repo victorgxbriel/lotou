@@ -1,7 +1,7 @@
 <template>
   <div class="number-container">
       <div v-for="(num, i) in listNumbers" :key="num.num" class="number-item">
-          <Number :num="num.num" :match="num.match"/>
+          <Number :num="num.num" :match="num.match" :onRemove="props.form" @on-remove="clickRemov(num.num)" />
       </div>
   </div>
 </template>
@@ -10,10 +10,21 @@
 import type { NumberProps } from './number.vue';
 
 export type ListNumberProps = {
-  listNumbers: NumberProps[]
+  listNumbers: NumberProps[],
+  form?: boolean
+}
+
+type ListNumberEmits = {
+  (event: 'remove', num: string): void
 }
 
 const props = defineProps<ListNumberProps>()
+const emits = defineEmits<ListNumberEmits>()
+
+const clickRemov = (num: string) => {
+  emits('remove', num)
+}
+
 
 </script>
 

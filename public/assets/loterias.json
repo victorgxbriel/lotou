@@ -2,37 +2,37 @@
     {
         "id": "megasena",
         "endpoint": "megasena",
-        "color": "#6BEFA3",
-        "name": "MEGA-SENA"
+        "cor": "#6BEFA3",
+        "nome": "MEGA-SENA"
     },
     {
         "id": "quina",
         "endpoint": "quina",
-        "color": "#8666EF",
-        "name": "QUINA"
+        "cor": "#8666EF",
+        "nome": "QUINA"
     },
     {
         "id": "lotofacil",
         "endpoint": "lotofacil",
-        "color": "#DD7AC6",
-        "name": "LOTOFACIL"
+        "cor": "#DD7AC6",
+        "nome": "LOTOFACIL"
     },
     {
         "id": "lotomania",
         "endpoint": "lotomania",
-        "color": "#FFAB64",
-        "name": "LOTOMANIA"
+        "cor": "#FFAB64",
+        "nome": "LOTOMANIA"
     },
     {
         "id": "timemania",
         "endpoint": "timemania",
-        "color": "#5AAD7D",
-        "name": "TIMEMANIA"
+        "cor": "#5AAD7D",
+        "nome": "TIMEMANIA"
     },
     {
         "id": "diadesorte",
         "endpoint": "diadesorte",
-        "color": "#BFAF83",
-        "name": "DIA DE SORTE"
+        "cor": "#BFAF83",
+        "nome": "DIA DE SORTE"
     }
 ]

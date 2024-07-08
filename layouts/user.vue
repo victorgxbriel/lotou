@@ -16,7 +16,7 @@
         <div class="main-content">
             <div class="nav-bar">
                 <button>Sair</button>
-                <img src="../public/img/logo-lotou.png" />
+                <img src="../public/img/logo-lotou-2.png" />
             </div>
             <div class="page-content">
                 <NuxtPage />
@@ -32,13 +32,17 @@
 .container {
     display: flex;
     height: 100vh;
-    width: 100vh;
+    width: 100%;
 }
 .user-info{
     width: 25%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #419a46;
+}
+.nav-bar{
+    background-color: #a3d2a0;
 }
 .main-content {
     flex: 1;
@@ -48,5 +52,6 @@
 .page-content {
     flex: 1;
     overflow-y: auto;
+    align-items: center;
 }
 </style>
