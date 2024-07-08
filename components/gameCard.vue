@@ -1,5 +1,5 @@
 <template>
-    <div class="card" :style="{ backgroundColor: jogo.loteria.cor }">
+    <div class="card" :style="{ backgroundColor: jogo.loteria.cor }" @click="$emit('clicked')">
         <h3>{{ jogo.name }}</h3>
         <p>Loteria: {{ jogo.loteria.nome }}</p>
         <p>Concurso Nº: {{ jogo.numero }}</p>
@@ -7,10 +7,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Jogo } from '~/server/api/jogos/index.get';
 
 export type GameProps = {
     jogo: Jogo
+}
+
+type GameEvents = {
+    (event: 'clicked'): void
 }
 
 const props = defineProps<GameProps>();

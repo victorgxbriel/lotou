@@ -1,6 +1,6 @@
 <template>
     <div class="game-list" v-if="jogos.length > 0">
-        <GameCard v-for="jogo in jogos" :key="jogo.id" :jogo="jogo"/>
+        <GameCard v-for="jogo in jogos" :key="jogo.id" :jogo="jogo" @clicked="handleEvent(jogo.id)"/>
     </div>
     <div v-else>
         <p>Não tem jogos ainda</p>
@@ -8,11 +8,19 @@
 </template>
 
 <script setup lang="ts">
-import type { Jogo } from '~/server/api/jogos/index.get';
-
 
 type ListGameProps = {
     jogos: Jogo[]
+}
+
+type ListGameEvents = {
+    (event: 'clicked', idx:number): void
+}
+
+const emits = defineEmits<ListGameEvents>()
+
+const handleEvent = (idx:number) => {
+    emits("clicked", idx)
 }
 
 const props = defineProps<ListGameProps>()

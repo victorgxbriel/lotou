@@ -1,7 +1,8 @@
 <template>
    <Icon name="lets-icons:remove-duotone" v-if="props.onRemove" @click="$emit('on-remove')" class="icon"/> 
     <div class="lottery-ball">
-        <p>{{ num }}</p>
+        <p v-if="props.match" style="background-color: aquamarine;">{{ num }}</p>
+        <p v-else >{{ num }}</p>
     </div>
 </template>
 

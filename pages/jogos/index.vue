@@ -1,10 +1,15 @@
 <template>
     <div>
-        <p>D</p>
+        <ListGames :jogos="jogos" @clicked="(idx) => { handleEvent(idx)}"/>
     </div>
 </template>
 
 <script setup lang="ts">
+const jogos: Jogo[] = useJogos()
+const router = useRouter()
+const handleEvent = (idx: number) => {
+    router.push(`/jogos/${idx}`)
+}
 </script>
 
 <style scoped></style>

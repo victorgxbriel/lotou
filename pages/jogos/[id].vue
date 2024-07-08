@@ -1,8 +1,12 @@
 <template>
-ddd
+    <Game :jogo="jogo" />
 </template>
 
 <script setup lang="ts">
+function convertToString(value: string | string[]): string {
+  return Array.isArray(value) ? value[0] : value;
+}
+
 /*
 import type { GameProps } from '~/components/game.vue';
 import type { NumberProps } from '~/components/number.vue';
@@ -34,6 +38,9 @@ const game: GameProps = {
         }) || [],
 }
 */
+const route = useRoute()
+const idjogo: string = convertToString(route.params.id)
+const jogo: Jogo = getJogoById(parseInt(idjogo))
 </script>
 
 <style scoped>

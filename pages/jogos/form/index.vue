@@ -30,7 +30,7 @@
             </div>
             <div class="div-buttons">
                 <button style="color: blue;" @click="addJogo">Criar</button>
-                <button>Cancelar</button>
+                <button @click="cancelar" >Cancelar</button>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@ const jogo = reactive<Jogo>({
     }
 })
 
-const route = useRoute()
+const router = useRouter()
 
 const form = ref<boolean>(true)
 
@@ -92,6 +92,7 @@ const addNumber = () => {
 }
 
 const addJogo = () => {
+    /*
     jogo.loteria = selectedLoteria.value
     jogo.numero = selectedConcurso.value?.numero || ""
     jogo.listNumbers = list
@@ -102,7 +103,12 @@ const addJogo = () => {
         return n
     }) || []
     const idd =useAddJogo(jogo)
-    console.log(idd)
+    console.log(idd) */
+    router.push(`/jogos/2`)
+}
+
+const cancelar = () => {
+    router.push("/jogos")
 }
 
 const loterias: Loteria[] = useLoteria()
@@ -139,6 +145,8 @@ watch([selectedLoteria, loteria], async () => {
     else
         concursos.value = []
 })
+
+
 
 </script>
 
