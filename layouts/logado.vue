@@ -3,6 +3,8 @@
         <nav>
             <ul>
                 <li><nuxt-link to="/">Home</nuxt-link></li>
+                <li><nuxt-link to="/jogos">Meus Jogos</nuxt-link></li>
+                <li><nuxt-link to="/jogos/form">Criar jogo</nuxt-link></li>
                 <li><nuxt-link to="/login">Logout</nuxt-link></li>
             </ul>
         </nav>

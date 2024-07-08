@@ -5,6 +5,11 @@
 </template>
 
 <script setup lang="ts">
+
+definePageMeta({
+    layout: "logado"
+})
+
 const jogos: Jogo[] = useJogos()
 const router = useRouter()
 const handleEvent = (idx: number) => {

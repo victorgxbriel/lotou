@@ -3,6 +3,11 @@
 </template>
 
 <script setup lang="ts">
+
+definePageMeta({
+    layout: "logado"
+})
+
 function convertToString(value: string | string[]): string {
   return Array.isArray(value) ? value[0] : value;
 }

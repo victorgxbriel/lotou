@@ -41,7 +41,7 @@ import type { NumberProps } from '~/components/number.vue';
 import type { Concurso } from '~/composables/types';
 
 definePageMeta({
-    layout: "user"
+    layout: "logado"
 })
 
 const jogo = reactive<Jogo>({
